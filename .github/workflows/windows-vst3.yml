@@ -1,0 +1,21 @@
+name: Windows x64 VST3
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, 'mo-vox-windows/**']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build, validate and package Windows VST3
+        shell: pwsh
+        run: ./scripts/build-windows.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MO-VOX-Windows-x64
+          path: dist/MO-VOX-Windows-x64-MSVC.zip
+          if-no-files-found: error
